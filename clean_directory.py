@@ -1,6 +1,7 @@
 #########################################################
 #   Clear files older than informed number of the days  #
-#   Informe yhe path of the folder                      #
+#   Informe The path of the folder                      #
+#   If not informed it will use actual path             #
 #   And the number of the days it will keep the files   #
 #   If this last is not informed the program will delete#
 #       files older than 60 days                        #
@@ -15,12 +16,12 @@ from time import sleep
 
 if __name__ == '__main__':
     
-    if len(sys.argv) < 2:
-        print "You need to inform Folder and number of days parameter\r"
-        print "if you dont inform the number of days to delete it'll assume Older than 60 days \r"
-        exit(1)
-   
     
+    folder = os.curdir
+    
+    if len(sys.argv) > 1:
+        folder = sys.argv[1]
+   
     retDays = 60
     
     if len(sys.argv) > 2:
@@ -28,7 +29,6 @@ if __name__ == '__main__':
         if re.search('^[0-9]+$', sys.argv[2]):
             retDays = sys.argv[2]
     
-    folder = sys.argv[1]
     os.chdir(folder)
     today = datetime.date.today()
     
