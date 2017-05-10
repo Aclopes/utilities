@@ -1,18 +1,49 @@
-# 1. Lista todos os arquivos da pasta
-# 2. verifica a data dos arquivos
-# 3. move todos que tem mais de 3 meses
+#########################################################
+#   Clear files older than informed number of the days  #
+#   Informe yhe path of the folder                      #
+#   And the number of the days it will keep the files   #
+#   If this last is not informed the program will delete#
+#       files older than 60 days                        #
+#########################################################
 
 import os
 import glob
 import sys
 import datetime
+import re
+from time import sleep
 
 if __name__ == '__main__':
-
+    
+    if len(sys.argv) < 2:
+        print "You need to inform Folder and number of days parameter\r"
+        print "if you dont inform the number of days to delete it'll assume Older than 60 days \r"
+        exit(1)
+   
+    
+    retDays = 60
+    
+    if len(sys.argv) > 2:
+        
+        if re.search('^[0-9]+$', sys.argv[2]):
+            retDays = sys.argv[2]
+    
     folder = sys.argv[1]
     os.chdir(folder)
     today = datetime.date.today()
-
+    
+    #wait to user confirm or cancel
+    print "It will delete all files in folder " + folder
+    print "Older than " + retDays + " Days"
+    
+    for i in range(0,5):
+        sleep(1)
+        sys.stdout.write('.')
+        sys.stdout.flush()
+    
+    print "\n"
+    
+    retDays = int(retDays)
 
     for name_file in glob.glob('*'):
 
@@ -31,7 +62,7 @@ if __name__ == '__main__':
         print "Today is:\t" + today.isoformat()
         print "diff is:\t" + str(diference)
 
-        if diference > 90 :
+        if diference > retDays:
             print 'Excluir'
             os.remove(name_file)
 
